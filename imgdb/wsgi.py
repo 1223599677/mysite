@@ -11,7 +11,7 @@ import os
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_DIR)
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "imgdb.settings")
+os.environ["DJANGO_SETTINGS_MODULE"] = "imgdb.settings"
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
