@@ -44,7 +44,7 @@ class PrivateGenome(TimeModel):
 
     def get_browse_url(self):
         url = ('http://genebrowser.lifemodules.org/jbrowse/?data='
-               'data/{username}/{name}_{random_string}'
+               'data/private/{username}/{name}_{random_string}'
              ).format(
                 username = self.owner.username,
                 name = self.get_name(),
