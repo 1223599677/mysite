@@ -31,15 +31,16 @@ class PrivateGenome(TimeModel):
 
     def get_name(self):
         if not self.name:
-            return 'private genome {}'.format(self.pk)
-        return self.name
+            self.name = 'private genome {}'.format(self.pk)
+            self.save()
+        return self.name.replace(' ', '_')
 
     def get_random_string(self, length=5):
         if not self.random_string:
             self.random_string = ''.join(
                 random.choice(string.letters+string.digits) for _ in range(length))
             self.save()
-        return self.random_string
+        return self.random_string + str(self.pk)
 
     def get_browse_url(self):
         url = ('http://genebrowser.lifemodules.org/jbrowse/?data='

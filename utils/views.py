@@ -28,7 +28,7 @@ def user_center(request):
             command = 'nohup bash update.sh {seq} {ann} {usr} {name}_{rstr} {name} &'.format(
                 ann = private_genome.annotation_file.path,
                 seq = private_genome.sequence_file.path,
-                usr = private_genome.owner.username,
+                usr = private_genome.owner.username.replace(' ', '_'),
                 name = private_genome.get_name(),
                 rstr = private_genome.get_random_string()
             )
