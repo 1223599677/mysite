@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'imgdb',
         'USER': 'qnhu',
         'PASSWORD': 'sdd!db',
-        'HOST': 'tib.rxnfinder.org',
+        'HOST': 'localhost' if os.getenv('USER') == 'qnhu' else 'fatnode.rxnfinder.org',
         'PORT': '5432',
     }
 }

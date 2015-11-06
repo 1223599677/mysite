@@ -23,6 +23,7 @@ class PrivateGenome(TimeModel):
     owner = models.ForeignKey(
         User, editable=False, null=True, blank=True,
         related_name='%(app_label)s_%(class)s_owner')
+    name = models.CharField(max_length=10, default='')
 
 
 @python_2_unicode_compatible

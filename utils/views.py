@@ -18,6 +18,7 @@ def user_center(request):
         if form.is_valid():
             print request.FILES
             private_genome = PrivateGenome(
+                    name=form.cleaned_data.get('name',''),
                     document_file=request.FILES.get('document_file', None),
                     sequence_file=request.FILES['sequence_file'],
                     annotation_file=request.FILES['annotation_file'])
