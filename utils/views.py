@@ -25,14 +25,15 @@ def user_center(request):
             private_genome.save()
             # call
             os.chdir('/home/qnhu/genebrowser/jbrowse/data/update')
-            command = 'bash update.sh {seq} {ann} {usr} {name}_{rstr} {name}'.format(
+            command = 'nohup bash update.sh {seq} {ann} {usr} {name}_{rstr} {name} &'.format(
                 ann = private_genome.annotation_file.path,
                 seq = private_genome.sequence_file.path,
                 usr = private_genome.owner.username,
                 name = private_genome.get_name(),
                 rstr = private_genome.get_random_string()
             )
-            os.system(command)
+            print command
+            os.popen(command)
 
             return render(request, 'utils/upload_success.html')
 
