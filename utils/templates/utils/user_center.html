@@ -29,7 +29,7 @@
        <p class="text-danger">Tips: You've uploaded {{ private_genome_count }} private genomes!</p>
        {% for pg in private_genomes %}
          <p>
-           <a href="{{ pg.get_browse_url }}">{{ pg.get_name }}</a>
+           <a href="{{ pg.get_browse_url }}" target="_blank">{{ pg.get_name }}</a>
            (<b>Download</b>:
            {% if pg.document_file %}
            <a href="{{ pg.document_file.url }}" class="btn-primary btn-sm">Information Docs</a>
