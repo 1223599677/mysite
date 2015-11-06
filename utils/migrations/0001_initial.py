@@ -13,9 +13,11 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('create_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
             ('update_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('sequence_file', self.gf('django.db.models.fields.files.FileField')(max_length=100, null=True)),
-            ('annotation_file', self.gf('django.db.models.fields.files.FileField')(max_length=100, null=True)),
+            ('document_file', self.gf('django.db.models.fields.files.FileField')(max_length=100, null=True, blank=True)),
+            ('sequence_file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
+            ('annotation_file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
             ('owner', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'utils_privategenome_owner', null=True, to=orm['users.User'])),
+            ('name', self.gf('django.db.models.fields.CharField')(default='', max_length=10)),
         ))
         db.send_create_signal(u'utils', ['PrivateGenome'])
 
@@ -74,11 +76,13 @@ class Migration(SchemaMigration):
         },
         u'utils.privategenome': {
             'Meta': {'object_name': 'PrivateGenome'},
-            'annotation_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True'}),
+            'annotation_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'create_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'document_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '10'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'utils_privategenome_owner'", 'null': 'True', 'to': u"orm['users.User']"}),
-            'sequence_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True'}),
+            'sequence_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'update_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'})
         },
         u'utils.visitrecord': {

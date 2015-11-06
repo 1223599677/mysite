@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth import get_user_model
+import random
+import string
 
 User = get_user_model()
-
 
 class TimeModel(models.Model):
     create_time = models.DateTimeField(
@@ -23,7 +24,32 @@ class PrivateGenome(TimeModel):
     owner = models.ForeignKey(
         User, editable=False, null=True, blank=True,
         related_name='%(app_label)s_%(class)s_owner')
-    name = models.CharField(max_length=10, default='')
+    name = models.CharField(max_length=10, default='', help_text='private genome name')
+    # !!! never use this field directly, use method `obj.get_random_string()`
+    random_string = models.CharField(
+        max_length=20, default='', blank=True, editable=False)
+
+    def get_name(self):
+        if not self.name:
+            return 'private genome {}'.format(self.pk)
+        return self.name
+
+    def get_random_string(self, length=5):
+        if not self.random_string:
+            self.random_string = ''.join(
+                random.choice(string.letters+string.digits) for _ in range(length))
+            self.save()
+        return self.random_string
+
+    def get_browse_url(self):
+        url = ('http://genebrowser.lifemodules.org/jbrowse/?data='
+               'data/{username}/{name}_{random_string}'
+             ).format(
+                username = self.owner.username,
+                name = self.name,
+                random_string = self.get_random_string()
+             )
+        return url
 
 
 @python_2_unicode_compatible

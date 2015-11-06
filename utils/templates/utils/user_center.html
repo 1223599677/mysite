@@ -27,6 +27,17 @@
        </p>
 
        <p class="text-danger">Tips: You've uploaded {{ private_genome_count }} private genomes!</p>
+       {% for pg in private_genomes %}
+         <p>
+           <a href="{{ pg.get_browse_url }}">{{ pg.get_name }}</a>
+           (<b>Download</b>:
+           {% if pg.document_file %}
+           <a href="{{ pg.document_file.url }}" class="btn-primary btn-sm">Information Docs</a>
+           {% endif %}
+           <a href="{{ pg.sequence_file.url }}" class="btn-info btn-sm">Sequence File</a>
+           <a href="{{ pg.annotation_file.url }}" class="btn-danger btn-sm">Annotation File</a>)
+         </p>
+       {% endfor %}
     </div>
 
 

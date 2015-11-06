@@ -8,23 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Deleting field 'PrivateGenome.documents'
-        db.delete_column(u'utils_privategenome', 'documents')
-
-        # Adding field 'PrivateGenome.document_file'
-        db.add_column(u'utils_privategenome', 'document_file',
-                      self.gf('django.db.models.fields.files.FileField')(max_length=100, null=True, blank=True),
+        # Adding field 'PrivateGenome.random_string'
+        db.add_column(u'utils_privategenome', 'random_string',
+                      self.gf('django.db.models.fields.CharField')(default='', max_length=20),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Adding field 'PrivateGenome.documents'
-        db.add_column(u'utils_privategenome', 'documents',
-                      self.gf('django.db.models.fields.files.FileField')(max_length=100, null=True),
-                      keep_default=False)
-
-        # Deleting field 'PrivateGenome.document_file'
-        db.delete_column(u'utils_privategenome', 'document_file')
+        # Deleting field 'PrivateGenome.random_string'
+        db.delete_column(u'utils_privategenome', 'random_string')
 
 
     models = {
@@ -70,7 +62,9 @@ class Migration(SchemaMigration):
             'create_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
             'document_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '10'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'utils_privategenome_owner'", 'null': 'True', 'to': u"orm['users.User']"}),
+            'random_string': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '20'}),
             'sequence_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'update_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'})
         },
