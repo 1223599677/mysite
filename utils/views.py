@@ -9,19 +9,20 @@ def user_center(request):
     if not request.user.is_authenticated():
         return redirect('users_login')
 
+    form = PrivateGenomeForm()
+    private_genome_count = PrivateGenome.objects.filter(
+        owner=request.user).count()
+
     if request.method == 'POST':
         form = PrivateGenomeForm(request.POST, request.FILES)
         if form.is_valid():
             private_genome = PrivateGenome(
+                    document_file=request.FILES['document_file'],
                     sequence_file=request.FILES['sequence_file'],
                     annotation_file=request.FILES['annotation_file'])
             private_genome.owner = request.user
             private_genome.save()
-        return render(request, 'utils/upload_success.html')
-    else:
-        form = PrivateGenomeForm()
-        private_genome_count = PrivateGenome.objects.filter(
-            owner=request.user).count()
+            return render(request, 'utils/upload_success.html')
 
     return render(request, 'utils/user_center.html', {
             'form': form,
