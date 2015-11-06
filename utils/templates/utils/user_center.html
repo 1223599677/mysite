@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load i18n bootstrap3 %}
+
+{% block title %}User Center - {% if user.real_name %}{{ user.real_name }}{% else %}{{ user.username }}{% endif %}{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+       <h2>1. Publicly available genomes</h2>
+       <p>
+         <a href="http://genebrowser.lifemodules.org/jbrowse/?data=data/ecoli"><i>E. coli</i></a>
+         (<b>Download</b>:
+         <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
+         <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
+         <a href="/media/MG1655_p.gtf" class="btn-danger btn-sm">Annotation File</a>)
+       </p>
+
+
+       <h2>2. Your private genomes</h2>
+       <p>
+         <a href="http://genebrowser.lifemodules.org/jbrowse/?data=data/yeast">Yeast</a>
+         (<b>Download</b>:
+         <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
+         <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
+         <a href="/media/MG1655_p.gtf" class="btn-danger btn-sm">Annotation File</a>)
+       </p>
+
+       <p class="text-danger">Tips: You've uploaded {{ private_genome_count }} private genomes!</p>
+    </div>
+
+
+    <div class="col-md-12">
+        <h2>3. Upload your private genomes</h2>
+        <form action="{% url 'users_center' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <button type="submit" class="btn btn-success">Upload</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

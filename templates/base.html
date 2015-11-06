@@ -1,0 +1,166 @@
+{% load i18n bootstrap3 staticfiles %}<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}{{ title|default:"Welcome!"}}{% endblock %} - {{ site_name }}</title>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="{% block keywords %}{% endblock %}">
+	<meta name="description" content="{% block description %}{% endblock %}">
+
+	<meta name="author" content="{% block author %}WeizhongTu{% endblock %}">
+
+	<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">
+    {% block extra_css %}{% endblock %}
+    {% block basejs %}
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    {% endblock basejs %}
+    {% block extra_js %}{% endblock %}
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	  <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<style type="text/css">
+	body {
+		padding-top: 60px;
+	}
+
+  .required label:after { content:" *"; }
+	</style>
+
+  {% block css %}{% endblock %}
+  {% block js %}{% endblock %}
+</head>
+
+<body>
+{% block allcontent %}
+<div class="container">
+    {% block navbar %}
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> 
+             <span class="sr-only">Toggle navigation</span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             </button> 
+             <span class="navbar-brand"><a href="/">{{ site.name }}</a></span>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+            {% if request.user.is_authenticated %}
+              <li><a href="{% url 'users_center' %}">User Center</a></li>
+            {% endif %}
+                {% comment %}
+                <!--<li><a href="http://www.esynbio.com">{% trans "eSynBio" %}</a></li>-->
+                <!--<li class="dropdown">
+                     <a href="/rxnip/" class="dropdown-toggle" data-toggle="dropdown">RxnIP<strong class="caret"></strong></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="disabled"><b>Data Level</b></a></li>
+                        <li><a href="/rxndb/">RxnDB</a></li>
+                        <li><a href="/ecoli/">Ecoli3D</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/biosynther/">BioSynther</a></li>
+                    </ul>
+                </li>-->
+
+                {% endcomment %}
+            </ul>
+
+
+            <form class="navbar-form navbar-right">
+            <div class="form-group">
+              {% comment %} Login and Register {% endcomment %}
+              {% if user.is_authenticated %}
+                <div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">{% if user.real_name %}{{ user.real_name }}{% else %}{{ user.username }}{% endif %}<span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{% url 'users_password_change' %}">Change Password</a></li>
+                  <li><a href="{% url 'users_logout' %}">Logout</a></li>
+                </ul>
+                {% if user.is_superuser %}<a class="btn btn-success" href="/admin/">admin site</a>{% endif %}
+                </div>
+              {% else %} <!-- Profile -->
+                <a class="btn btn-success btn" href="{% url 'users_register' %}?next={% url 'users_login' %}">Register</a>
+                <a class="btn btn-info" href="{% url 'users_login' %}">Log in</a>
+              {% endif %}
+              </div>
+            </form>
+        </div>
+    </div>
+    </nav>
+    {% endblock navbar %}
+
+
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <!--[if lt IE 8]>
+            <div class="alert alert-warning alert-dismissable">
+                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4> WARNING! </h4> <strong>Your browser is too old and may not display the page correctly. Please upgrade to</strong> 
+                        <a href="http://www.google.cn/intl/zh-CN/chrome/" target="_blank">Chrome</a> or 
+                        <a href="www.mozilla.org/en-US/firefox/‎" target="_blank">Firefox</a> /
+                        <a href="http://www.apple.com.cn/safari/" target="_blank">Safari</a> /
+                        <a href="http://www.opera.com/" target="_blank">Opera</a> /
+                        <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">Internet Explorer 11</a>
+            </div>
+            <![endif]-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+        {{ settings.ADMIN }}
+        {% if messages %}
+        	{% for message in messages %}
+        		<div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+        	{% endfor %}
+        {% endif %}
+        {% block content %}
+        	<p>replace block content(defined in base.html).</p>
+        {% endblock content %}
+        </div>
+
+        <div class="row" style="margin-top:20px;">
+          <div class="col-md-12 panel panel-default" style="background: rgb(251, 255, 250);">
+            <div class="panel-body">
+              <ul class="list-inline pull-right">
+                  <li class="text-danger">Visit Count: {{ visit_count }} User Count: {{ user_count }}</li>
+                  <li><a href="http://www.tib.cas.cn" target="_blank">TIB</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+
+</div>
+{% endblock allcontent %}
+
+
+{% block bootstrapjs %}
+<script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+{% endblock bootstrapjs %}
+
+<div style="visibility: hidden;display:none" hidden>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1627523662d16280b1d8bcc8e12bd3c9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+{% block jsbottom %}{% endblock jsbottom %}
+{% block bottomjs %}{% endblock bottomjs %}
+</div>
+</body>
+</html>

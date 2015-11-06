@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n bootstrap3 %}
+
+{% block title %}Upload Success - {% if user.real_name %}{{ user.real_name }}{% else %}{{ user.username }}{% endif %}{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+    <h1>Congratulations! Upload Success!</h1>
+    <h3>The Private Genome you've uploaded would be available in your <a href="{% url 'users_center' %}">private genome list</a> 1 day later</h3>
+    </div>
+</div>
+{% endblock %}
