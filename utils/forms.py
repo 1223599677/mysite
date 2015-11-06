@@ -8,7 +8,6 @@ class PrivateGenomeForm(ModelForm):
         model = PrivateGenome
 
     def clean(self):
-        print 'clean'
         cleaned_data = super(PrivateGenomeForm, self).clean()
 
         for _file in ["sequence_file", "annotation_file"]:
@@ -16,3 +15,4 @@ class PrivateGenomeForm(ModelForm):
                 raise forms.ValidationError(
                     "{} is needed!".format(_file.replace('_', ' '))
                 )
+        return cleaned_data

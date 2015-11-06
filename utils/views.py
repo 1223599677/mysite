@@ -16,8 +16,9 @@ def user_center(request):
     if request.method == 'POST':
         form = PrivateGenomeForm(request.POST, request.FILES)
         if form.is_valid():
+            print request.FILES
             private_genome = PrivateGenome(
-                    document_file=request.FILES['document_file'],
+                    document_file=request.FILES.get('document_file', None),
                     sequence_file=request.FILES['sequence_file'],
                     annotation_file=request.FILES['annotation_file'])
             private_genome.owner = request.user
