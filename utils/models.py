@@ -19,8 +19,10 @@ class TimeModel(models.Model):
 class PrivateGenome(TimeModel):
     document_file = models.FileField(help_text='ducument file is optional',
         upload_to='private_genome/', null=True, blank=True)
-    sequence_file = models.FileField(upload_to='private_genome/')
-    annotation_file = models.FileField(upload_to='private_genome/')
+    sequence_file = models.FileField(upload_to='private_genome/',
+        help_text='sequence file in fasta format')
+    annotation_file = models.FileField(upload_to='private_genome/',
+        help_text='annotation file in GFF format')
     owner = models.ForeignKey(
         User, editable=False, null=True, blank=True,
         related_name='%(app_label)s_%(class)s_owner')
