@@ -1,9 +1,33 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.http import HttpResponse
 
 from .forms import PrivateGenomeForm
 from .models import PrivateGenome
 import os
+
+
+def change_private_genome(request):
+    if request.method == 'POST':
+        pg_id = request.POST.get('id')
+
+        pg = PrivateGenome.objects.get(id=pg_id, owner=request.user)
+        del_code = request.POST.get('del_code')
+        if del_code is None:
+            return HttpResponse('do nothing')
+
+        if del_code == '1':
+            pg.deleted = True
+            pg.save()
+            return HttpResponse('deleted')
+        elif del_code == '0':
+            pg.deleted = False
+            pg.save()
+            return HttpResponse('undeleted')
+        else:
+            return HttpResponse('del code is wrong')
+
+
 
 
 def user_center(request):
@@ -17,7 +41,7 @@ def user_center(request):
         if form.is_valid():
             print request.FILES
             private_genome = PrivateGenome(
-                name=form.cleaned_data.get('name',''),
+                name=form.cleaned_data.get('name', ''),
                 document_file=request.FILES.get('document_file', None),
                 sequence_file=request.FILES['sequence_file'],
                 annotation_file=request.FILES['annotation_file'])
@@ -38,7 +62,7 @@ def user_center(request):
             return render(request, 'utils/upload_success.html')
 
     private_genomes = PrivateGenome.objects.filter(
-        owner=request.user)
+        owner=request.user, deleted=False)
     return render(request, 'utils/user_center.html', {
             'form': form,
             'private_genomes': private_genomes,

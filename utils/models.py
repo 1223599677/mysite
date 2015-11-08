@@ -17,6 +17,7 @@ class TimeModel(models.Model):
 
 
 class PrivateGenome(TimeModel):
+    name = models.CharField(max_length=100, default='', help_text='private genome name')
     document_file = models.FileField(help_text='ducument file is optional',
         upload_to='private_genome/', null=True, blank=True)
     sequence_file = models.FileField(upload_to='private_genome/',
@@ -26,10 +27,11 @@ class PrivateGenome(TimeModel):
     owner = models.ForeignKey(
         User, editable=False, null=True, blank=True,
         related_name='%(app_label)s_%(class)s_owner')
-    name = models.CharField(max_length=10, default='', help_text='private genome name')
     # !!! never use this field directly, use method `obj.get_random_string()`
     random_string = models.CharField(
         max_length=20, default='', blank=True, editable=False)
+
+    deleted = models.BooleanField(default=False)
 
     def get_name(self):
         if not self.name:

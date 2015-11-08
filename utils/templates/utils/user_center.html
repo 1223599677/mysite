@@ -13,7 +13,7 @@
          (<b>Download</b>:
          <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
          <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
-         <a href="/media/MG1655_p.gtf" class="btn-danger btn-sm">Annotation File</a>)
+         <a href="/media/MG1655_p.gtf" class="btn-success btn-sm">Annotation File</a>)
        </p>
 
         <p>
@@ -21,7 +21,7 @@
             (<b>Download</b>:
             <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
             <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
-            <a href="/media/MG1655_p.gtf" class="btn-danger btn-sm">Annotation File</a>)
+            <a href="/media/MG1655_p.gtf" class="btn-success btn-sm">Annotation File</a>)
         </p>
 
         <p>
@@ -29,7 +29,7 @@
             (<b>Download</b>:
             <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
             <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
-            <a href="/media/MG1655_p.gtf" class="btn-danger btn-sm">Annotation File</a>)
+            <a href="/media/MG1655_p.gtf" class="btn-success btn-sm">Annotation File</a>)
         </p>
 
         <p>
@@ -37,7 +37,7 @@
             (<b>Download</b>:
             <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
             <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
-            <a href="/media/MG1655_p.gtf" class="btn-danger btn-sm">Annotation File</a>)
+            <a href="/media/MG1655_p.gtf" class="btn-success btn-sm">Annotation File</a>)
         </p>
 
     
@@ -50,18 +50,21 @@
            (<b>Download</b>:
            
            <a href="/media/private_genome/GCF_000011325.1_ASM1132v1_genomic_kSWL5gX.fna" class="btn-info btn-sm">Sequence File</a>
-           <a href="/media/private_genome/GCF_000011325.1_ASM1132v1_genomic_UjxXFFC.gff" class="btn-danger btn-sm">Annotation File</a>)
+           <a href="/media/private_genome/GCF_000011325.1_ASM1132v1_genomic_UjxXFFC.gff" class="btn-success btn-sm">Annotation File</a>)
          </p>
 
        {% for pg in private_genomes %}
          <p>
+           <span id="pg{{pg.id}}">
            <a href="{{ pg.get_browse_url }}" target="_blank">{{ pg.get_name }}</a>
            (<b>Download</b>:
            {% if pg.document_file %}
            <a href="{{ pg.document_file.url }}" class="btn-primary btn-sm">Information Docs</a>
            {% endif %}
            <a href="{{ pg.sequence_file.url }}" class="btn-info btn-sm">Sequence File</a>
-           <a href="{{ pg.annotation_file.url }}" class="btn-danger btn-sm">Annotation File</a>)
+           <a href="{{ pg.annotation_file.url }}" class="btn-success btn-sm">Annotation File</a>)
+           </span>
+           <button class='delete_private_genome btn-danger btn-xs' del_code='1' data="{{ pg.id }}">delete</button>
          </p>
        {% endfor %}
     </div>
@@ -76,4 +79,38 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+$.ajaxSetup({
+    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+});
+
+$(document).ready(function(){
+  $('button.delete_private_genome').click(function(){
+    var $this = $(this);
+    var pgid = $this.attr('data');
+    var del_code = $this.attr('del_code');
+    console.log(pgid);
+    console.log(del_code);
+
+    $.post('{% url "change-private-genome" %}',
+          {'id': pgid, 'del_code': del_code},
+          function(ret){
+            console.log(ret);
+
+            if (ret == 'deleted'){
+              $('#pg'+pgid).css('text-decoration', 'line-through');
+              $this.attr('del_code', '0');
+              $this.html('undelete');
+            } else {
+              $this.attr('del_code', '1');
+              $this.html('delete');
+              $('#pg'+pgid).css('text-decoration', 'none');
+            }
+          }
+      )
+    
+  })
+})
+</script>
 {% endblock %}
