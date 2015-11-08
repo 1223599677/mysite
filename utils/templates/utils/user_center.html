@@ -101,7 +101,13 @@ $(document).ready(function(){
             if (ret == 'deleted'){
               $('#pg'+pgid).css('text-decoration', 'line-through');
               $this.attr('del_code', '0');
-              $this.html('undelete');
+              $this.html('restore');
+
+              var r=confirm("The private genome is deleted! \nDo you want to hide them? \nTips:  if deleted by mistakes please select 'No'");
+              if (r==true) {
+                $('#pg'+pgid).hide();
+                $this.hide();
+              }
             } else {
               $this.attr('del_code', '1');
               $this.html('delete');
