@@ -15,6 +15,9 @@
     {% if strain %}<strong>Strain</strong>: {{ strain }}{% endif %}
     {% if application %}<strong>Application</strong>: {{ application }}{% endif %}
     </p>
+
+    <p>Found {{ sequences.counter }}Items</p>
+
       {% for sequence in sequences %}
       <h3><strong>({{ forloop.counter }}) strain: {{ sequence.strain }}</strong></h3>
       <p><strong>Owner</strong>: {{ sequence.strain_owner }}</p>
