@@ -6,6 +6,7 @@ import string
 
 User = get_user_model()
 
+
 class TimeModel(models.Model):
     create_time = models.DateTimeField(
         'created at', auto_now_add=True, editable=False, null=True)
@@ -14,6 +15,16 @@ class TimeModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class SequenceInfo(TimeModel):
+    strain = models.CharField(max_length=1000)
+    sequence_type = models.CharField(max_length=50, null=True, blank=True)
+    public_type = models.CharField(max_length=50, null=True, blank=True)
+    strain_owner = models.CharField(max_length=100)
+    industrial_application = models.TextField()
+    document_file = models.FileField(help_text='ducument file is optional',
+        upload_to='sequence_info/', null=True, blank=True)
 
 
 class PrivateGenome(TimeModel):

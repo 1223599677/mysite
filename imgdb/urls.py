@@ -5,7 +5,10 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'imgdb.views.home', name='home'),
-    url(r'^change/private/genome/$', 'utils.views.change_private_genome', name='change-private-genome'),
+    url(r'^change/private/genome/$', 'utils.views.change_private_genome',
+        name='change-private-genome'),
+    url(r'^search/sequence_info/$', 'utils.views.search_sequence_info',
+        name='search-sequence-info'),
     url(r'^user_center/', 'utils.views.user_center', name='users_center'),
     url('accounts/', include('users.urls')),
     url('grappelli/', include('grappelli.urls')),

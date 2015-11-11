@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import PrivateGenome
+from .models import PrivateGenome, SequenceInfo
 
 
 class PrivateGenomeAdmin(admin.ModelAdmin):
@@ -8,4 +8,10 @@ class PrivateGenomeAdmin(admin.ModelAdmin):
                     'create_time', 'update_time']
 
 
+class SequenceInfoAdmin(admin.ModelAdmin):
+    list_display = ['strain', 'strain_owner', 'sequence_type', 'public_type',
+    'industrial_application', 'document_file']
+
+
 admin.site.register(PrivateGenome, PrivateGenomeAdmin)
+admin.site.register(SequenceInfo, SequenceInfoAdmin)

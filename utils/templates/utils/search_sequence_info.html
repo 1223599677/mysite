@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load i18n bootstrap3 %}
+
+{% block title %}Search Sequence Information{% endblock %}
+
+{% block extra_css %}
+<style type="text/css">
+span.example{
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-xs-1 col-md-3">
+    </div>
+
+    <div class="col-xs-10 col-md-6">
+        {% if keyword_error %}
+          <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>{{ err_title }}</strong> {{ err_content }}
+          </div>
+        {% endif %}
+        <form action="{% url 'search-sequence-info' %}" method="POST" role="form">
+          <legend>Search Sequence Information</legend>
+          {% csrf_token %}
+        
+          <div class="form-group">
+            <label for="strain">Strain</label>
+            <input type="text" class="form-control" id="strain" name="strain"><span class='example' data='植物乳杆菌'>example</span>
+          </div>
+          <div class="form-group">
+            <label for="application">Application</label>
+            <input type="text" class="form-control" id="application" name="application">
+            <span class='example' data='柴油'>example</span>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <div class="col-xs-1 col-md-3">
+    </div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+  $("span.example").click(function(){
+    $(this).siblings('input').val($(this).attr('data'));
+  })
+});
+</script>
+{% endblock %}

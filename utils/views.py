@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
-
+from django.contrib.auth.decorators import login_required
 from .forms import PrivateGenomeForm
-from .models import PrivateGenome
+from .models import PrivateGenome, SequenceInfo
 import os
 
 
+@login_required
 def change_private_genome(request):
     if request.method == 'POST':
         pg_id = request.POST.get('id')
@@ -28,12 +29,8 @@ def change_private_genome(request):
             return HttpResponse('del code is wrong')
 
 
-
-
+@login_required
 def user_center(request):
-    if not request.user.is_authenticated():
-        return redirect('users_login')
-
     form = PrivateGenomeForm()
 
     if request.method == 'POST':
@@ -68,3 +65,33 @@ def user_center(request):
             'private_genomes': private_genomes,
             'private_genome_count': private_genomes.count()}
         )
+
+@login_required
+def search_sequence_info(request):
+    if request.method == 'POST':
+        kwargs = {}
+        strain = request.POST.get('strain', '').strip()
+        application = request.POST.get('application', '').strip()
+
+        if not strain and not application:
+            return render(request, 'utils/search_sequence_info.html', {
+                'keyword_error': True,
+                'err_title': 'Nothing Input',
+                'err_content': 'please input at least a keyword!'
+              }
+            )
+        if strain:
+            kwargs['strain__icontains'] = strain
+        if application:
+            kwargs['industrial_application__icontains'] = application
+
+        sequences = SequenceInfo.objects.filter(**kwargs)
+        return render(request, 'utils/search_sequence_results.html', {
+                    'sequences': sequences,
+                    'strain': strain,
+                    'application': application,
+            }
+        )
+
+    else:
+        return render(request, 'utils/search_sequence_info.html')
