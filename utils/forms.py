@@ -6,6 +6,7 @@ from .models import PrivateGenome, SequenceInfo
 class PrivateGenomeForm(ModelForm):
     class Meta:
         model = PrivateGenome
+        fields = ['name', 'document_file', 'sequence_file', 'annotation_file']
 
     def clean(self):
         cleaned_data = super(PrivateGenomeForm, self).clean()
