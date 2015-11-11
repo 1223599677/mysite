@@ -36,6 +36,11 @@ def change_private_genome(request):
 
 @login_required
 def genome_center(request):
+    return render(request, 'utils/genome_center.html')
+
+
+@login_required
+def genome_upload(request):
     form = PrivateGenomeForm()
 
     if request.method == 'POST':
@@ -65,11 +70,19 @@ def genome_center(request):
 
     private_genomes = PrivateGenome.objects.filter(
         owner=request.user, deleted=False)
-    return render(request, 'utils/genome_center.html', {
-            'form': form,
+    return render(request, 'utils/genome_upload.html', {'form': form})
+
+
+@login_required
+def genome_browser(request):
+    print 'browser'
+    private_genomes = PrivateGenome.objects.filter(
+        owner=request.user, deleted=False)
+    return render(request, 'utils/genome_browser.html', {
             'private_genomes': private_genomes,
             'private_genome_count': private_genomes.count()}
         )
+
 
 @login_required
 def search_sequence_info(request):
