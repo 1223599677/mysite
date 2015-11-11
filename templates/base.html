@@ -53,9 +53,8 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-            {% if request.user.is_authenticated %}
-              <li><a href="{% url 'users_center' %}">User Center</a></li>
-            {% endif %}
+            <li><a href="{% url 'user_center' %}">User Center</a></li>
+            <li><a href="{% url 'genome_center' %}">Genome Browser</a></li>
             <li><a href="{% url 'search-sequence-info' %}">Search Sequence Info</a></li>
                 {% comment %}
                 <!--<li><a href="http://www.esynbio.com">{% trans "eSynBio" %}</a></li>-->
@@ -148,6 +147,10 @@
 {% block bootstrapjs %}
 <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 {% endblock bootstrapjs %}
+
+<script>
+$(function () { $("[data-toggle='tooltip']").tooltip(); });
+</script>
 
 <div style="visibility: hidden;display:none" hidden>
 <script>

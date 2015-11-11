@@ -8,6 +8,11 @@ import os
 
 
 @login_required
+def user_center(request):
+    return render(request, 'utils/user_center.html')
+
+
+@login_required
 def change_private_genome(request):
     if request.method == 'POST':
         pg_id = request.POST.get('id')
@@ -30,7 +35,7 @@ def change_private_genome(request):
 
 
 @login_required
-def user_center(request):
+def genome_center(request):
     form = PrivateGenomeForm()
 
     if request.method == 'POST':
@@ -60,7 +65,7 @@ def user_center(request):
 
     private_genomes = PrivateGenome.objects.filter(
         owner=request.user, deleted=False)
-    return render(request, 'utils/user_center.html', {
+    return render(request, 'utils/genome_center.html', {
             'form': form,
             'private_genomes': private_genomes,
             'private_genome_count': private_genomes.count()}
