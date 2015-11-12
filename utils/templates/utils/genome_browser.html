@@ -12,33 +12,33 @@
        <p>
          <a href="http://genebrowser.lifemodules.org/jbrowse/?data=data/ecoli"><i>E. coli</i></a>
          (<b>Download</b>:
-         <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
-         <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
-         <a href="/media/MG1655_p.gtf" class="btn-success btn-sm">Annotation File</a>)
+         <a href="/media/Demo.docx" class="btn btn-primary btn-sm">Information Docs</a>
+         <a href="/media/MG1655.fa" class="btn btn-info btn-sm">Sequence File</a>
+         <a href="/media/MG1655_p.gtf" class="btn btn-success btn-sm">Annotation File</a>)
        </p>
 
         <p>
             <a href="http://genebrowser.lifemodules.org/jbrowse/?data=data/yeast">Yeast</a>
             (<b>Download</b>:
-            <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
-            <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
-            <a href="/media/MG1655_p.gtf" class="btn-success btn-sm">Annotation File</a>)
+            <a href="/media/Demo.docx" class="btn btn-primary btn-sm">Information Docs</a>
+            <a href="/media/MG1655.fa" class="btn btn-info btn-sm">Sequence File</a>
+            <a href="/media/MG1655_p.gtf" class="btn btn-success btn-sm">Annotation File</a>)
         </p>
 
         <p>
             <a href="http://genebrowser.lifemodules.org/jbrowse/?data=data/volvox">Volvox</a>
             (<b>Download</b>:
-            <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
-            <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
-            <a href="/media/MG1655_p.gtf" class="btn-success btn-sm">Annotation File</a>)
+            <a href="/media/Demo.docx" class="btn btn-primary btn-sm">Information Docs</a>
+            <a href="/media/MG1655.fa" class="btn btn-info btn-sm">Sequence File</a>
+            <a href="/media/MG1655_p.gtf" class="btn btn-success btn-sm">Annotation File</a>)
         </p>
 
         <p>
             <a href="http://genebrowser.lifemodules.org/jbrowse/?data=data/modencode">Modencode</a>
             (<b>Download</b>:
-            <a href="/media/Demo.docx" class="btn-primary btn-sm">Information Docs</a>
-            <a href="/media/MG1655.fa" class="btn-info btn-sm">Sequence File</a>
-            <a href="/media/MG1655_p.gtf" class="btn-success btn-sm">Annotation File</a>)
+            <a href="/media/Demo.docx" class="btn btn-primary btn-sm">Information Docs</a>
+            <a href="/media/MG1655.fa" class="btn btn-info btn-sm">Sequence File</a>
+            <a href="/media/MG1655_p.gtf" class="btn btn-success btn-sm">Annotation File</a>)
         </p>
 
     
@@ -50,20 +50,23 @@
            <a href="http://genebrowser.lifemodules.org/jbrowse/?data=data/private/liaoxp/CG_an27Z21" target="_blank">CG</a>
            (<b>Download</b>:
            
-           <a href="/media/private_genome/GCF_000011325.1_ASM1132v1_genomic_kSWL5gX.fna" class="btn-info btn-sm">Sequence File</a>
-           <a href="/media/private_genome/GCF_000011325.1_ASM1132v1_genomic_UjxXFFC.gff" class="btn-success btn-sm">Annotation File</a>)
+           <a href="/media/private_genome/GCF_000011325.1_ASM1132v1_genomic_kSWL5gX.fna" class="btn btn-info btn-sm">Sequence File</a>
+           <a href="/media/private_genome/GCF_000011325.1_ASM1132v1_genomic_UjxXFFC.gff" class="btn btn-success btn-sm">Annotation File</a>)
          </p>
 
        {% for pg in private_genomes %}
          <p>
            <span id="pg{{pg.id}}">
            <a href="{{ pg.get_browse_url }}" target="_blank">{{ pg.get_name }}</a>
-           (<b>Download</b>:
+           (
+           <a href="{% url 'sequence-info-upload' %}?{{ pg.get_fill_sequence_info_queystring }}" class="btn btn-warning btn-sm" target="_blank">fill in the relevant information</a> 
+
+           <b>Download</b>:
            {% if pg.document_file %}
-           <a href="{{ pg.document_file.url }}" class="btn-primary btn-sm">Information Docs</a>
+           <a href="{{ pg.document_file.url }}" class="btn btn-primary btn-sm">Information Docs</a>
            {% endif %}
-           <a href="{{ pg.sequence_file.url }}" class="btn-info btn-sm">Sequence File</a>
-           <a href="{{ pg.annotation_file.url }}" class="btn-success btn-sm">Annotation File</a>)
+           <a href="{{ pg.sequence_file.url }}" class="btn btn-info btn-sm">Sequence File</a>
+           <a href="{{ pg.annotation_file.url }}" class="btn btn-success btn-sm">Annotation File</a>)
            </span>
            <button class='delete_private_genome btn-danger btn-xs' del_code='1' data="{{ pg.id }}">delete</button>
          </p>

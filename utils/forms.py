@@ -17,3 +17,15 @@ class PrivateGenomeForm(ModelForm):
                     "{} is needed!".format(_file.replace('_', ' '))
                 )
         return cleaned_data
+
+
+class SequenceInfoForm(forms.ModelForm):
+    class Meta:
+        model = SequenceInfo
+        fields = ('strain', 'strain_owner', 'public_type', 'sequence_type', 'industrial_application',)
+
+    '''
+    def clean(self):
+        cleaned_data = super(SequenceInfoForm, self).clean()
+        return cleaned_data
+    '''

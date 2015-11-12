@@ -8,14 +8,19 @@ urlpatterns = patterns('',
 
     url(r'^user_center/', 'utils.views.user_center', name='user-center'),
 
-    url(r'^genome_center/', 'utils.views.genome_center', name='genome-center'),
-    url(r'^genome_upload/', 'utils.views.genome_upload', name='genome-upload'),
-    url(r'^genome_browser/', 'utils.views.genome_browser', name='genome-browser'),
-    url(r'^change/private/genome/$', 'utils.views.change_private_genome',
+    url(r'^genome/center/', 'utils.views.genome_center', name='genome-center'),
+    url(r'^genome/upload/', 'utils.views.genome_upload', name='genome-upload'),
+    url(r'^genome/browser/', 'utils.views.genome_browser', name='genome-browser'),
+    url(r'^change/private_genome/$', 'utils.views.change_private_genome',
         name='change-private-genome'),
 
-    url(r'^search/sequence_info/$', 'utils.views.search_sequence_info',
+
+    url(r'^sequence_info/upload/$', 'utils.views.sequence_info_upload',
+        name='sequence-info-upload'),
+    url(r'^sequence_info/search/$', 'utils.views.search_sequence_info',
         name='search-sequence-info'),
+    url(r'^sequence_info/detail/(?P<pk>\d+)/$', 'utils.views.sequence_info_detail',
+        name='sequence-info-detail'),
 
     url('accounts/', include('users.urls')),
     url('grappelli/', include('grappelli.urls')),

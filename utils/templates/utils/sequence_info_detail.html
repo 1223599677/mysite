@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n bootstrap3 %}
+
+{% block title %}Search Sequence {{ sequence_info.strain }} ({{ sequence_info.pk }}){% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-1">
+    </div>
+
+    <div class="col-xs-10">
+      <h3><strong>strain</strong>: {{ sequence_info.strain }}</h3>
+      <p><strong>Owner</strong>: {{ sequence_info.strain_owner }}</p>
+      <p><strong>Public Type</strong>: {{ sequence_info.public_type }}</p>
+      <p><strong>Sequence Type</strong>: {{ sequence_info.sequence_type }}</p>
+      <p><strong>Industrial Applications</strong>: {{ sequence_info.industrial_application }}</p>
+    </div>
+
+    <div class="col-xs-1">
+    </div>
+
+</div>
+{% endblock %}

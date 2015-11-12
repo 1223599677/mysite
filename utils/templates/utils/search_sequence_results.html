@@ -19,12 +19,10 @@
     <p>Found {{ sequences.counter }}Items</p>
 
       {% for sequence in sequences %}
-      <h3><strong>({{ forloop.counter }}) strain: {{ sequence.strain }}</strong></h3>
+      <h3><strong>({{ forloop.counter }}) <a href="{% url 'sequence-info-detail' sequence.pk %}">strain: {{ sequence.strain }}</a></strong></h3>
       <p><strong>Owner</strong>: {{ sequence.strain_owner }}</p>
       <p><strong>Public Type</strong>: {{ sequence.public_type }}</p>
       <p><strong>Sequence Type</strong>: {{ sequence.sequence_type }}</p>
-      <p><strong>Industrial Applications</strong>: {{ sequence.industrial_application }}</p>
-      <br>
       {% empty %}
       <h1>Sorry, Nothing Found!</h1>
       {% endfor %}

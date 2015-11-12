@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth import get_user_model
+from django.utils.html import format_html
 import random
 import string
 
@@ -18,9 +20,15 @@ class TimeModel(models.Model):
 
 
 class SequenceInfo(TimeModel):
+    PUBLIC_TYPES = (
+        ('不公开', '不公开'),
+        ('协议公开', '协议公开'),
+        ('完全公开', '完全公开'),
+        ('是否公开未知', '是否公开未知'),
+    )
     strain = models.CharField(max_length=1000)
     sequence_type = models.CharField(max_length=50, null=True, blank=True)
-    public_type = models.CharField(max_length=50, null=True, blank=True)
+    public_type = models.CharField(max_length=50, choices=PUBLIC_TYPES, null=True, blank=True)
     strain_owner = models.CharField(max_length=100)
     industrial_application = models.TextField()
     document_file = models.FileField(help_text='ducument file is optional',
@@ -38,6 +46,7 @@ class PrivateGenome(TimeModel):
     owner = models.ForeignKey(
         User, editable=False, null=True, blank=True,
         related_name='%(app_label)s_%(class)s_owner')
+    sequence_info = models.OneToOneField(SequenceInfo, null=True)
     # !!! never use this field directly, use method `obj.get_random_string()`
     random_string = models.CharField(
         max_length=20, default='', blank=True, editable=False)
@@ -56,6 +65,12 @@ class PrivateGenome(TimeModel):
                 random.choice(string.letters+string.digits) for _ in range(length))
             self.save()
         return self.random_string + str(self.pk)
+
+    def get_fill_sequence_info_queystring(self):
+        self.get_random_string()
+        return format_html(
+            'pk={pk}&code={code}', pk=self.pk, code = self.random_string
+        )
 
     def get_browse_url(self):
         url = ('http://genebrowser.lifemodules.org/jbrowse/?data='
