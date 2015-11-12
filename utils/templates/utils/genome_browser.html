@@ -59,7 +59,7 @@
            <span id="pg{{pg.id}}">
            <a href="{{ pg.get_browse_url }}" target="_blank">{{ pg.get_name }}</a>
            (
-           <a href="{% url 'sequence-info-upload' %}?{{ pg.get_fill_sequence_info_queystring }}" class="btn btn-warning btn-sm" target="_blank">fill in the relevant information</a> 
+           <a href="{% url 'sequence-info-upload' %}?{{ pg.get_fill_sequence_info_queystring }}" class="btn btn-warning btn-sm" target="_blank">relevant information</a> 
 
            <b>Download</b>:
            {% if pg.document_file %}

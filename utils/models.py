@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth import get_user_model
@@ -19,6 +21,7 @@ class TimeModel(models.Model):
         abstract = True
 
 
+@python_2_unicode_compatible
 class SequenceInfo(TimeModel):
     PUBLIC_TYPES = (
         ('不公开', '不公开'),
@@ -35,6 +38,11 @@ class SequenceInfo(TimeModel):
         upload_to='sequence_info/', null=True, blank=True)
 
 
+    def __str__(self):
+        return self.strain
+
+
+@python_2_unicode_compatible
 class PrivateGenome(TimeModel):
     name = models.CharField(max_length=100, default='', help_text='private genome name')
     document_file = models.FileField(help_text='ducument file is optional',
@@ -52,6 +60,9 @@ class PrivateGenome(TimeModel):
         max_length=20, default='', blank=True, editable=False)
 
     deleted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
 
     def get_name(self):
         if not self.name:

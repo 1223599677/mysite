@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
@@ -116,13 +119,17 @@ def search_sequence_info(request):
 
 @login_required
 def sequence_info_upload(request):
-    instance = SequenceInfo(strain_owner=request.user.real_name)
-    form = SequenceInfoForm(instance=instance)
-
     private_genome = get_object_or_404(PrivateGenome,
         pk=request.GET.get('pk'),
         random_string = request.GET.get('code', '')
     )
+
+    if private_genome.sequence_info:
+        instance = private_genome.sequence_info
+    else:
+        instance = SequenceInfo(strain_owner=request.user.real_name)
+
+    form = SequenceInfoForm(instance=instance)
 
     if request.method == 'POST':
         form = SequenceInfoForm(request.POST, request.FILES)
@@ -134,7 +141,8 @@ def sequence_info_upload(request):
             return render(request, 'utils/sequence_info_upload_success.html',
                 {'sequence_info': sequence_info})
 
-    return render(request, 'utils/sequence_info_upload.html', {'form': form})
+    return render(request, 'utils/sequence_info_upload.html', {
+        'form': form, 'private_genome': private_genome})
 
 
 @login_required

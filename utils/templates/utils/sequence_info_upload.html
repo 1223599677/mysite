@@ -7,13 +7,19 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-    <h1>Sequence Infomation</h1>
+    <h1>Sequence Infomation for private genome "{{ private_genome.name }}"</h1>
     <div class="col-md-12">
-        <form action="{% url 'sequence-info-upload' %}" method="POST" enctype="multipart/form-data">
+        <form id='upload_sequence' action="{% url 'sequence-info-upload' %}" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           {% bootstrap_form form %}
           <button type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    document.getElementById('upload_sequence').action = location.href;
+})
+</script>
 {% endblock %}
