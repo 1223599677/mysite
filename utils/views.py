@@ -124,15 +124,17 @@ def sequence_info_upload(request):
         random_string = request.GET.get('code', '')
     )
 
+    kwargs = {}
     if private_genome.sequence_info:
         instance = private_genome.sequence_info
+        kwargs['instance'] = instance
     else:
         instance = SequenceInfo(strain_owner=request.user.real_name)
 
-    form = SequenceInfoForm(instance=instance)
+    form = SequenceInfoForm(**kwargs)
 
     if request.method == 'POST':
-        form = SequenceInfoForm(request.POST, request.FILES)
+        form = SequenceInfoForm(request.POST, request.FILES, **kwargs)
         if form.is_valid():
             sequence_info = form.save()
             private_genome.sequence_info = sequence_info
